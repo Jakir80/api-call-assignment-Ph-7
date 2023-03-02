@@ -21,21 +21,42 @@
    <button class=" btn btn-lg btn-danger mb-4">Sort By date</button>
     </section>
 </header>
-<main>
+<main>   
     <section class="container">
 <!-- card all -->
 <div class="row row-cols-1 row-cols-md-3 g-4 " id="card-container">
    
   </div>
+  <!-- Modal start -->
+  <section>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModal">
+        Launch demo modal
+    </button>
 
-  <!-- modal start -->
-  <!-- modal end -->
+    <!-- Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog  modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="modal-body" class="modal-body">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Modal end -->
     </section>
 </main>
 <footer>
     <section>
- 
-        
+    
+        <!-- <button class="btn-lg btn-danger">
+            see All
+        </button> -->
     </section>
 </footer>
         <!-- js link goes here -->
