@@ -3,41 +3,46 @@ const loadFetch=()=>{
   const url=`https://openapi.programming-hero.com/api/ai/tools`
   fetch(url)
   .then(res=>res.json())
-  .then(data=>showData(data))
+  .then(data=>showData(data.data.tools.slice(0,6)))
 }
+
 const showData=allData=>{
+  // console.log(allData)
   //  if(allData.length>4){
-    //   allData.slice(0,4)
-    //  }
+    // allData.slice(0,4)
+    //  
     // const {description,image,published_in,features,name,id}=alldata.data.tools;
     const cardContainer=document.getElementById('card-container');
     // console.log(allData.data.id)
-    // cardContainer.innerText='';
+    cardContainer.innerHTML='';
+    // const slicedData = allData.data.tools.slice(0, 4);
     
-    allData.data.tools.slice(0,4).forEach(singleData => {
+    allData.forEach(singleData => {
+      const {image,features,name,published_in,id}=singleData;
       // console.log(singleData.id);
+      console.log(singleData)
       cardContainer.innerHTML+=`
       <div class="col">
       <div class="card h-100">
-      <img src="${singleData.image}" class="card-img-top" alt="...">
+      <img src="${image}" class="card-img-top" alt="...">
       <div class="card-body">
       <h5 class="card-title">${"Features"}</h5>
       <p class="card-text">
       <ol>
-      <li>${singleData.features[0]}</li>
-      <li>${singleData.features[1]}</li>
-      <li>${singleData.features[2]}</li>
+      <li>${features[0]}</li>
+      <li>${features[1]}</li>
+      <li>${features[2]}</li>
       </ol></p>
       </div>
       <div class="card-footer">
-      <h3>${singleData.name}</h3>
+      <h3>${name}</h3>
       <div class="d-flex 
       justify-content-between align-items-center  justify-content-center" >
       <div class="d-flex align-items-center ">
       <i class="fas fa-star"></i>
-      <p>${singleData.published_in}</p>
+      <p>${published_in}</p>
       </div>
-      <i class="fas fa-arrow-right bg-warning rounded circle p-3 rounded" onclick="fetchDetails('${singleData.id}') "data-bs-toggle="modal" data-bs-target="#detailsModal"></i>
+      <i class="fas fa-arrow-right bg-warning rounded circle p-3 rounded" onclick="fetchDetails('${id}') "data-bs-toggle="modal" data-bs-target="#detailsModal"></i>
       </div>       
       </div>
       </div> 
@@ -49,22 +54,16 @@ const showData=allData=>{
     });
     
   };  
-  // cardContainer.innerHTML="";
-
 // modal js
 const fetchDetails = (id) => { 
       const url =`https://openapi.programming-hero.com/api/ai/tool/${id}`
      fetch(url)
     .then(response => response.json())
     .then(data => showDetails(data.data))
-    // console.log(url);
-    
+    // console.log(url);  
 }
 const showDetails = (data) => {
     console.log(data.integrations[0]);
-    // for (feature_name in data.features){
-    //   console.log(feature_name)
-    // }
     const {image_link, input_output_examples,description} = data;
     const modalBody = document.getElementById('modal-body');
     modalBody.innerHTML = `
@@ -124,15 +123,17 @@ const showDetails = (data) => {
     </div>
        `;
 };
-// const seeAll=()=>{
-// }
-// const seeAll=()=>{
-//   const all=document.getElementById('see-all').addEventListener('click',function(){
-//     setAttribute('d-none')
-//   })
 
-// }
+const showAllDataTogether=()=>{
+  const url=`https://openapi.programming-hero.com/api/ai/tools`
+  fetch(url)
+  .then(res=>res.json())
+  .then(data=>showData(data.data.tools))
+  const seeAll=document.getElementById('see-All');
+  seeAll.classList.add('d-none')
+}
 loadFetch();
+
 
 
 
