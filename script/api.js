@@ -4,23 +4,16 @@ const loadFetch=()=>{
   fetch(url)
   .then(res=>res.json())
   .then(data=>showData(data.data.tools.slice(0,6)))
-}
-
+  // .then(data=>console.log(data))
+};
 const showData=allData=>{
   // console.log(allData)
-  //  if(allData.length>4){
-    // allData.slice(0,4)
-    //  
-    // const {description,image,published_in,features,name,id}=alldata.data.tools;
-    const cardContainer=document.getElementById('card-container');
-    // console.log(allData.data.id)
+    const cardContainer=document.getElementById('card-container'); 
     cardContainer.innerHTML='';
-    // const slicedData = allData.data.tools.slice(0, 4);
-    
     allData.forEach(singleData => {
       const {image,features,name,published_in,id}=singleData;
       // console.log(singleData.id);
-      console.log(singleData)
+      // console.log(singleData)
       cardContainer.innerHTML+=`
       <div class="col">
       <div class="card h-100">
@@ -38,11 +31,10 @@ const showData=allData=>{
       <h3>${name}</h3>
       <div class="d-flex 
       justify-content-between align-items-center  justify-content-center" >
-      <div class="d-flex align-items-center ">
-      <i class="fas fa-star"></i>
-      <p>${published_in}</p>
+      <div class="d-flex text-center">
+      <p><i class="fa-regular fa-calendar-days"></i> ${published_in}</p>
       </div>
-      <i class="fas fa-arrow-right bg-warning rounded circle p-3 rounded" onclick="fetchDetails('${id}') "data-bs-toggle="modal" data-bs-target="#detailsModal"></i>
+      <i class="fas fa-arrow-right text-danger bg-danger bg-opacity-25 rounded-circle rounded circle p-3 rounded" onclick="fetchDetails('${id}') "data-bs-toggle="modal" data-bs-target="#detailsModal"></i>
       </div>       
       </div>
       </div> 
@@ -51,8 +43,8 @@ const showData=allData=>{
       
       </div> 
       `;
-    });
-    
+    }); 
+    toggleSpinner(false);  
   };  
 // modal js
 const fetchDetails = (id) => { 
@@ -60,27 +52,26 @@ const fetchDetails = (id) => {
      fetch(url)
     .then(response => response.json())
     .then(data => showDetails(data.data))
-    // console.log(url);  
 }
 const showDetails = (data) => {
-    console.log(data.integrations[0]);
-    const {image_link, input_output_examples,description} = data;
+    // console.log(data.data);
+    const {image_link, input_output_examples,description,accuracy} = data;
     const modalBody = document.getElementById('modal-body');
     modalBody.innerHTML = `
     <div class="row">
-        <div class="col col-md-7">
+        <div class="col col-md-6">
         <div class="col">
-        <div class="card h-100 p-2 bg-warning-subtle">
-        <h1>${description}</h1>
-        <div class="d-flex gap-1">
-        <div class="bg-warning rounded circle p-2">
-        <h5 class="text-success">${data.pricing[0].price}<br> <br><span>${data.pricing[0].plan}</span></h5>
+        <div class="card h-100 p-1 bg-warning-subtle">
+        <h3>${description}</h3>
+        <div class="d-flex gap-2">
+        <div class="bg-light rounded circle p-1">
+        <h5 class="text-success">${data.pricing[0].price}<br><span>${data.pricing[0].plan}</span></h5>
         </div>
-        <div class="bg-warning rounded circle p-1">
-        <h5 class="text-danger-emphasis">${data.pricing[1].price} <br> <br>${data.pricing[1].plan}</h5>
+        <div class="bg-light rounded circle p-1">
+        <h5 class="text-danger-emphasis">${data.pricing[1].price}<br>${data.pricing[1].plan}</h5>
         </div>
-        <div class="bg-warning rounded circle p-1">
-        <h5 class="text-danger" >${data.pricing[2].price}<br><br>${data.pricing[2].plan}</h5>       
+        <div class="bg-light rounded circle p-1">
+        <h5 class="text-danger" >${data.pricing[2].price}<br>${data.pricing[2].plan}</h5>       
         </div>      
      </div>      
 <div class="d-flex gap-2 justify-content-between">
@@ -104,15 +95,23 @@ const showDetails = (data) => {
     </div>
       </div>
           <div class="card-body text-center">
-            <h5 class="card-title"></h5>            
+                  
           </div>
         </div>
       </div>
         </div>
-        <div class="col col-md-5">
+        <div class="col h-100 col-md-6">
         <div class="col">
-        <div class="card h-100 p-2">
-          <img src="${image_link[0]}" class="card-img-top" alt="...">
+        <div class="card p-2">
+        
+          <img src="${image_link[0]}" class="card-img-top h-95"   alt="..."
+          <button type="button" class="btn btn-primary position-relative p-3">
+          <span class="position-absolute top-20 start-100 translate-middle badge right-100 rounded-pill bg-danger">
+         ${accuracy.score?accuracy.score+'accuracy':'dont-given-accurecy value'}
+            <span class="visually-hidden"></span>
+          </span>
+        </button>
+         
           <div class="card-body text-center">
             <h5 class="card-title">${input_output_examples[0].input}</h5>
             <p class="card-text">${input_output_examples[1].output}</p>
@@ -121,9 +120,9 @@ const showDetails = (data) => {
       </div>
         </div>
     </div>
-       `;
+    `;
 };
-
+//
 const showAllDataTogether=()=>{
   const url=`https://openapi.programming-hero.com/api/ai/tools`
   fetch(url)
@@ -131,7 +130,18 @@ const showAllDataTogether=()=>{
   .then(data=>showData(data.data.tools))
   const seeAll=document.getElementById('see-All');
   seeAll.classList.add('d-none')
+  toggleSpinner(true);
 }
+const toggleSpinner=isLoading=>{
+  const loaderSection=document.getElementById('loader');
+  if(isLoading){
+      loaderSection.classList.remove('d-none')
+  }
+  else{
+  //   toggleSpinner(false); 
+  loaderSection.classList.add('d-none');  
+  }
+};
 loadFetch();
 
 
