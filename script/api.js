@@ -64,13 +64,13 @@ const showDetails = (data) => {
         <h3>${description?description:"No data found"}</h3>
         <div class="d-flex gap-2">
         <div class="bg-light rounded circle p-1">
-        <h5 class="text-success">${data.pricing?data.pricing[0].price:"No data found"}<br><span>${data.pricing?data.pricing[0].plan:""}</span></h5>
+        <h5 class="text-success">${data.pricing?data.pricing[0].price:"free of cost"}<br><span>${data.pricing?data.pricing[0].plan:""}</span></h5>
         </div>
         <div class="bg-light rounded circle p-1">
-        <h5 class="text-danger-emphasis">${data.pricing?data.pricing[1].price:"no data found"}<br>${data.pricing?data.pricing[1].plan:""}</h5>
+        <h5 class="text-danger-emphasis">${data.pricing?data.pricing[1].price:"free of cost"}<br>${data.pricing?data.pricing[1].plan:""}</h5>
         </div>
         <div class="bg-light rounded circle p-1">
-        <h5 class="text-danger" >${data.pricing?data.pricing[2].price:"no data found"}<br>${data.pricing?data.pricing[2].plan:""}</h5>       
+        <h5 class="text-danger" >${data.pricing?data.pricing[2].price:"free of cost"}<br>${data.pricing?data.pricing[2].plan:""}</h5>       
         </div>      
      </div>      
 <div class="d-flex gap-2 justify-content-between">
