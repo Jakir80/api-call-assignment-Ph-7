@@ -1,11 +1,10 @@
 //fetch all data from api
-const loadFetch=()=>{
-  const url=`https://openapi.programming-hero.com/api/ai/tools`
-  fetch(url)
-  .then(res=>res.json())
-  .then(data=>showData(data.data.tools.slice(0,6)))
-  // .then(data=>console.log(data))
+const loadFetch=async()=>{
+  const res=await fetch("https://openapi.programming-hero.com/api/ai/tools")
+  const data=await res.json();
+  showData(data.data.tools.slice(0,6))
 };
+loadFetch();
 const showData=allData=>{
   // console.log(allData)
     const cardContainer=document.getElementById('card-container'); 
@@ -13,7 +12,7 @@ const showData=allData=>{
     allData.forEach(singleData => {
       const {image,features,name,published_in,id}=singleData;
       // console.log(singleData.id);
-      // console.log(singleData)
+      console.log(singleData)
       cardContainer.innerHTML+=`
       <div class="col">
       <div class="card h-100">
@@ -65,13 +64,13 @@ const showDetails = (data) => {
         <h3>${description?description:"No data found"}</h3>
         <div class="d-flex gap-2">
         <div class="bg-light rounded circle p-1">
-        <h5 class="text-success">${data.pricing?data.pricing[0].price:"No data found"}<br><span>${data.pricing?data.pricing[0].plan:"No data found"}</span></h5>
+        <h5 class="text-success">${data.pricing?data.pricing[0].price:"No data found"}<br><span>${data.pricing?data.pricing[0].plan:""}</span></h5>
         </div>
         <div class="bg-light rounded circle p-1">
-        <h5 class="text-danger-emphasis">${data.pricing?data.pricing[1].price:"no data found"}<br>${data.pricing?data.pricing[1].plan:"No data found "}</h5>
+        <h5 class="text-danger-emphasis">${data.pricing?data.pricing[1].price:"no data found"}<br>${data.pricing?data.pricing[1].plan:""}</h5>
         </div>
         <div class="bg-light rounded circle p-1">
-        <h5 class="text-danger" >${data.pricing?data.pricing[2].price:"no data found"}<br>${data.pricing?data.pricing[2].plan:"no data found"}</h5>       
+        <h5 class="text-danger" >${data.pricing?data.pricing[2].price:"no data found"}<br>${data.pricing?data.pricing[2].plan:""}</h5>       
         </div>      
      </div>      
 <div class="d-flex gap-2 justify-content-between">
@@ -89,8 +88,8 @@ const showDetails = (data) => {
     <h2>Intregation</h2>
      <ul>
         <li>${data.integrations?data.integrations[0]:"no data found"}</li>
-        <li>${data.integrations?data.integrations[1]:"no data found"}</li>
-        <li>${data.integrations?data.integrations[2]:"no data found "}</li>
+        <li>${data.integrations?data.integrations[1]:""}</li>
+        <li>${data.integrations?data.integrations[2]:""}</li>
       </ul>
     </div>
       </div>
@@ -107,9 +106,11 @@ const showDetails = (data) => {
           <img src="${image_link[0]?image_link[0]:"no data found "}" class="card-img-top h-95"   alt="..."
           <button type="button" class="btn btn-primary position-relative p-3">
           <span class="position-absolute top-20 start-100 translate-middle badge right-100 rounded-pill bg-danger">
-         ${accuracy.score?accuracy.score+'accuracy':'dont-given-accurecy value'}
-            <span class="visually-hidden"></span>
-          </span>
+          ${accuracy.score!=null? `${Math.round(accuracy.score*100)} % Accuracy`
+          :"no accuracy available"
+              }
+         </span>
+         
         </button>
          
           <div class="card-body text-center">
@@ -122,7 +123,6 @@ const showDetails = (data) => {
     </div>
     `;
 };
-//
 const showAllDataTogether=()=>{
   const url=`https://openapi.programming-hero.com/api/ai/tools`
   fetch(url)
@@ -144,7 +144,6 @@ const toggleSpinner=isLoading=>{
   }
 };
 
-loadFetch();
 
 
 
