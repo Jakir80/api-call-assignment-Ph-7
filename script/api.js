@@ -79,9 +79,10 @@ const showDetails = (data) => {
     features
     </h1>
 <ul>
-    <li>${data.features["1"].feature_name?data.features["1"].feature_name:"no data found"}</li>
-    <li>${data.features["2"].feature_name?data.features["2"].feature_name:"no data found"}</li>
-    <li>${data.features["3"].feature_name?data.features["3"].feature_name:"no data found"}</li>
+   
+<li>${data.features["1"].feature_name?data.features["1"].feature_name:"no data found"}</li>
+<li>${data.features["2"].feature_name?data.features["2"].feature_name:"no data found"}</li>
+<li>${data.features["3"].feature_name?data.features["3"].feature_name:"no data found"}</li>
 </ul>
 </div>
 <div>
@@ -99,13 +100,12 @@ const showDetails = (data) => {
         <div class="col h-100 col-md-6">
         <div class="col">
         <div class="card p-2">       
-          <img src="${image_link[0]?image_link[0]:"no data found "}"  class="card-img-top"   alt="..."
-          <button type="button" class="btn btn-primary position-relative p-3">
-          <span class="position-absolute customize translate-middle badge right-100 rounded-pill bg-danger">
-          ${accuracy.score!=null? `${Math.round(accuracy.score*100)} % Accuracy`
-          :"no accuracy available"}
-         </span>         
-        </button>
+          <img  src="${image_link[0] }" class="card-img-top position-relative" alt="..."<button type="button" class="btn btn-primary "> 
+        <span  class="position-absolute customize translate-middle badge rounded-pill bg-danger ${accuracy.score ? 'd-block' : 'd-none'}">
+         ${Math.round(accuracy.score * 100)} % accuracacy
+          
+         </span>
+       </button>
          
           <div class="card-body text-center">
             <h5 class="card-title">${input_output_examples?input_output_examples[0].input:"no  data found"}</h5>
