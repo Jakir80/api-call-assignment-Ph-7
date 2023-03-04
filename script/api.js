@@ -1,4 +1,5 @@
 //fetch all data from api
+// one time use async await for bonus mark
 const loadFetch=async()=>{
   const res=await fetch("https://openapi.programming-hero.com/api/ai/tools")
   const data=await res.json();
@@ -12,19 +13,18 @@ const showData=allData=>{
     allData.forEach(singleData => {
       const {image,features,name,published_in,id}=singleData;
       // console.log(singleData.id);
-      console.log(singleData)
+      // console.log(singleData)
+      console.log(features)
       cardContainer.innerHTML+=`
       <div class="col">
       <div class="card h-100">
       <img src="${image}" class="card-img-top" alt="...">
       <div class="card-body">
       <h5 class="card-title">${"Features"}</h5>
-      <p class="card-text">
+   
       <ol>
-      <li>${features[0]?features[0]:"No data found"}</li>
-      <li>${features[1]?features[1]:"No data found"}</li>
-      <li>${features[2]?features[2]:"No data found"}</li>
-      </ol></p>
+      ${features ? features.map(feature =>`<li>${feature}</li>`) : "No Data Found"}
+      </ol>
       </div>
       <div class="card-footer">
       <h3>${name?name:"No data found"}</h3>
@@ -53,7 +53,7 @@ const fetchDetails = (id) => {
     .then(data => showDetails(data.data))
 }
 const showDetails = (data) => {
-    console.log(data);
+    // console.log(data);
     const {image_link, input_output_examples,description,accuracy} = data;
     const modalBody = document.getElementById('modal-body');
     modalBody.innerHTML = `
@@ -87,30 +87,24 @@ const showDetails = (data) => {
 <div>
     <h2>Intregation</h2>
      <ul>
-        <li>${data.integrations?data.integrations[0]:"no data found"}</li>
-        <li>${data.integrations?data.integrations[1]:""}</li>
-        <li>${data.integrations?data.integrations[2]:""}</li>
+     ${data.integrations ? data.integrations.map(items =>`<li>${items}</li>`) : "No Data Found"}
       </ul>
     </div>
       </div>
-          <div class="card-body text-center">
-                  
+          <div class="card-body text-center">                 
           </div>
         </div>
       </div>
         </div>
         <div class="col h-100 col-md-6">
         <div class="col">
-        <div class="card p-2">
-        
-          <img src="${image_link[0]?image_link[0]:"no data found "}" class="card-img-top h-95"   alt="..."
+        <div class="card p-2">       
+          <img src="${image_link[0]?image_link[0]:"no data found "}"  class="card-img-top"   alt="..."
           <button type="button" class="btn btn-primary position-relative p-3">
-          <span class="position-absolute top-20 start-100 translate-middle badge right-100 rounded-pill bg-danger">
+          <span class="position-absolute customize translate-middle badge right-100 rounded-pill bg-danger">
           ${accuracy.score!=null? `${Math.round(accuracy.score*100)} % Accuracy`
-          :"no accuracy available"
-              }
-         </span>
-         
+          :"no accuracy available"}
+         </span>         
         </button>
          
           <div class="card-body text-center">
@@ -139,10 +133,11 @@ const toggleSpinner=isLoading=>{
       loaderSection.classList.remove('d-none')
   }
   else{
-  //   toggleSpinner(false); 
   loaderSection.classList.add('d-none');  
   }
 };
+
+
 
 
 
